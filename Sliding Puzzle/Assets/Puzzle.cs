@@ -6,18 +6,30 @@ public class Puzzle : MonoBehaviour {
 
     public Texture2D image;
     public int blocksPerLine = 4;
+    public int shuffleLength = 20;
 
     Block emptyBlock;
+    Block[,] blocks;
     Queue<Block> inputs;
     bool blockIsMoving;
+    int shuffleMovesRemaining;
 
     void Start()
     {
         CreatePuzzle();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartShuffle();
+        }
+    }
+
     void CreatePuzzle()
     {
+        blocks = new Block[blocksPerLine, blocksPerLine];
         Texture2D[,] imageSlices = ImageSlicer.GetSlices(image, blocksPerLine);
         for (int y = 0; y < blocksPerLine; y++)
         {
@@ -31,6 +43,7 @@ public class Puzzle : MonoBehaviour {
                 block.OnBlockPressed += PlayerMoveBlockInput;
                 block.OnFinishedMoving += OnBlockFinishedMoving;
                 block.Init(new Vector2Int(x, y), imageSlices[x, y]);
+                blocks[x, y] = block;
 
                 if (y == 0 && x == blocksPerLine -1)
                 {
@@ -63,6 +76,10 @@ public class Puzzle : MonoBehaviour {
     {
         if ((blockToMove.coord - emptyBlock.coord).sqrMagnitude == 1)
         {
+
+            blocks[blockToMove.coord.x, blockToMove.coord.y] = emptyBlock;
+            blocks[emptyBlock.coord.x, emptyBlock.coord.y] = blockToMove;
+
             Vector2Int targetCoord = emptyBlock.coord;
             emptyBlock.coord = blockToMove.coord;
             blockToMove.coord = targetCoord;
@@ -79,5 +96,37 @@ public class Puzzle : MonoBehaviour {
         blockIsMoving = false;
 
         MakeNextPlayerMove();
+
+        if (shuffleMovesRemaining > 0)
+        {
+            MakeNextShuffleMove();
+        }
+    }
+
+    void StartShuffle()
+    {
+        shuffleMovesRemaining = shuffleLength;
+        MakeNextShuffleMove();
+    }
+
+    void MakeNextShuffleMove()
+    {
+        Vector2Int[] offsets = { new Vector2Int(1, 0), new Vector2Int(-1, 0), new Vector2Int(0, 1), new Vector2Int(0, -1) };
+        int randomIndex = Random.Range(0, offsets.Length);
+
+        for (int i = 0; i < offsets.Length; i++)
+        {
+            Vector2Int offset = offsets[(randomIndex + i) % offsets.Length];
+            Vector2Int moveBlockCoord = emptyBlock.coord + offset;
+
+            if (moveBlockCoord.x >= 0 && moveBlockCoord.x < blocksPerLine && moveBlockCoord.y >= 0 && moveBlockCoord.y < blocksPerLine)
+            {
+                MoveBlock(blocks[moveBlockCoord.x, moveBlockCoord.y]);
+                shuffleMovesRemaining--;
+                break;
+            }
+        }
+
+        
     }
 }
