@@ -10,6 +10,9 @@ public class Puzzle : MonoBehaviour {
     public float defaultMoveDuration = .2f;
     public float shuffleMoveDuration = .1f;
 
+    enum PuzzleState { Solved, Shuffling, Inplay};
+    PuzzleState state;
+
     Block emptyBlock;
     Block[,] blocks;
     Queue<Block> inputs;
@@ -24,7 +27,7 @@ public class Puzzle : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (state == PuzzleState.Solved && Input.GetKeyDown(KeyCode.Space))
         {
             StartShuffle();
         }
@@ -63,8 +66,11 @@ public class Puzzle : MonoBehaviour {
 
     void PlayerMoveBlockInput(Block blockToMove)
     {
-        inputs.Enqueue(blockToMove);
-        MakeNextPlayerMove();
+        if (state == PuzzleState.Inplay)
+        {
+            inputs.Enqueue(blockToMove);
+            MakeNextPlayerMove();
+        }
     }
 
     void MakeNextPlayerMove()
@@ -98,16 +104,26 @@ public class Puzzle : MonoBehaviour {
     {
         blockIsMoving = false;
 
-        MakeNextPlayerMove();
-
-        if (shuffleMovesRemaining > 0)
+        if (state == PuzzleState.Inplay)
         {
-            MakeNextShuffleMove();
+            MakeNextPlayerMove();
+        }
+        else if (state == PuzzleState.Shuffling)
+        {
+            if (shuffleMovesRemaining > 0)
+            {
+                MakeNextShuffleMove();
+            }
+            else
+            {
+                state = PuzzleState.Inplay;
+            }
         }
     }
 
     void StartShuffle()
     {
+        state = PuzzleState.Shuffling;
         shuffleMovesRemaining = shuffleLength;
         MakeNextShuffleMove();
     }
