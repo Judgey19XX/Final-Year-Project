@@ -8,12 +8,14 @@ public class Block : MonoBehaviour {
     public event System.Action OnFinishedMoving;
 
     public Vector2Int coord;
+    Vector2Int startingCoord;
 
     public void Init(Vector2Int startingCoord, Texture2D image)
     {
+        this.startingCoord = startingCoord;
         coord = startingCoord;
 
-        GetComponent<MeshRenderer>().material.shader = Shader.Find("Unlit/Texture");
+        GetComponent<MeshRenderer>().material = Resources.Load<Material>("Block");
         GetComponent<MeshRenderer>().material.mainTexture = image;
     }
 
@@ -46,5 +48,10 @@ public class Block : MonoBehaviour {
         {
             OnFinishedMoving();
         }
+    }
+
+    public bool IsAtStartingCoord()
+    {
+        return coord == startingCoord; 
     }
 }
