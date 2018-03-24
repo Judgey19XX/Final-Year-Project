@@ -8,6 +8,8 @@ public class Puzzle : MonoBehaviour {
     public int blocksPerLine = 4;
 
     Block emptyBlock;
+    Queue<Block> inputs;
+    bool blockIsMoving;
 
     void Start()
     {
@@ -27,6 +29,7 @@ public class Puzzle : MonoBehaviour {
 
                 Block block = blockObject.AddComponent<Block>();
                 block.OnBlockPressed += PlayerMoveBlockInput;
+                block.OnFinishedMoving += OnBlockFinishedMoving;
                 block.Init(new Vector2Int(x, y), imageSlices[x, y]);
 
                 if (y == 0 && x == blocksPerLine -1)
@@ -38,10 +41,25 @@ public class Puzzle : MonoBehaviour {
         }
 
         Camera.main.orthographicSize = blocksPerLine * .55f;
+        inputs = new Queue<Block>();
 
     }
 
     void PlayerMoveBlockInput(Block blockToMove)
+    {
+        inputs.Enqueue(blockToMove);
+        MakeNextPlayerMove();
+    }
+
+    void MakeNextPlayerMove()
+    {
+        while (inputs.Count > 0 && !blockIsMoving)
+        {
+            MoveBlock(inputs.Dequeue());
+        }
+    }
+
+    void MoveBlock(Block blockToMove)
     {
         if ((blockToMove.coord - emptyBlock.coord).sqrMagnitude == 1)
         {
@@ -51,8 +69,15 @@ public class Puzzle : MonoBehaviour {
 
             Vector2 targetPosition = emptyBlock.transform.position;
             emptyBlock.transform.position = blockToMove.transform.position;
-            blockToMove.transform.position = targetPosition;
-
+            blockToMove.MoveToPosistion(targetPosition, .3f);
+            blockIsMoving = true;
         }
+    }
+
+    void OnBlockFinishedMoving()
+    {
+        blockIsMoving = false;
+
+        MakeNextPlayerMove();
     }
 }
