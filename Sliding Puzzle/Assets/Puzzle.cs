@@ -7,12 +7,15 @@ public class Puzzle : MonoBehaviour {
     public Texture2D image;
     public int blocksPerLine = 4;
     public int shuffleLength = 20;
+    public float defaultMoveDuration = .2f;
+    public float shuffleMoveDuration = .1f;
 
     Block emptyBlock;
     Block[,] blocks;
     Queue<Block> inputs;
     bool blockIsMoving;
     int shuffleMovesRemaining;
+    Vector2Int prevShuffleOffset; 
 
     void Start()
     {
@@ -68,11 +71,11 @@ public class Puzzle : MonoBehaviour {
     {
         while (inputs.Count > 0 && !blockIsMoving)
         {
-            MoveBlock(inputs.Dequeue());
+            MoveBlock(inputs.Dequeue(), defaultMoveDuration);
         }
     }
 
-    void MoveBlock(Block blockToMove)
+    void MoveBlock(Block blockToMove, float duration)
     {
         if ((blockToMove.coord - emptyBlock.coord).sqrMagnitude == 1)
         {
@@ -86,7 +89,7 @@ public class Puzzle : MonoBehaviour {
 
             Vector2 targetPosition = emptyBlock.transform.position;
             emptyBlock.transform.position = blockToMove.transform.position;
-            blockToMove.MoveToPosistion(targetPosition, .3f);
+            blockToMove.MoveToPosistion(targetPosition, duration);
             blockIsMoving = true;
         }
     }
@@ -117,13 +120,19 @@ public class Puzzle : MonoBehaviour {
         for (int i = 0; i < offsets.Length; i++)
         {
             Vector2Int offset = offsets[(randomIndex + i) % offsets.Length];
-            Vector2Int moveBlockCoord = emptyBlock.coord + offset;
-
-            if (moveBlockCoord.x >= 0 && moveBlockCoord.x < blocksPerLine && moveBlockCoord.y >= 0 && moveBlockCoord.y < blocksPerLine)
+            if (offset != prevShuffleOffset * -1)
             {
-                MoveBlock(blocks[moveBlockCoord.x, moveBlockCoord.y]);
-                shuffleMovesRemaining--;
-                break;
+
+                Vector2Int moveBlockCoord = emptyBlock.coord + offset;
+
+                if (moveBlockCoord.x >= 0 && moveBlockCoord.x < blocksPerLine && moveBlockCoord.y >= 0 && moveBlockCoord.y < blocksPerLine)
+                {
+                    MoveBlock(blocks[moveBlockCoord.x, moveBlockCoord.y], shuffleMoveDuration);
+                    shuffleMovesRemaining--;
+                    prevShuffleOffset = offset;
+                    break;
+                }
+
             }
         }
 
