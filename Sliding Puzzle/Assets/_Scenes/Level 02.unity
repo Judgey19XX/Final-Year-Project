@@ -200,7 +200,6 @@ GameObject:
   - component: {fileID: 251436673}
   - component: {fileID: 251436672}
   - component: {fileID: 251436671}
-  - component: {fileID: 251436674}
   m_Layer: 5
   m_Name: BtnLoadNextScene
   m_TagString: Untagged
@@ -224,7 +223,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -78.11, y: 36.7}
+  m_AnchoredPosition: {x: -78.11, y: 36.69995}
   m_SizeDelta: {x: 125, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &251436671
@@ -301,36 +300,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 251436669}
---- !u!114 &251436674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 251436669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 3
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 441316150}
-          m_MethodName: SceneLoader
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 1
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!1 &372626726
 GameObject:
   m_ObjectHideFlags: 0
@@ -425,54 +394,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1001 &441316149
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4591760289071272, guid: 7f5931b49a20999479c7faf2e70e76a3, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4591760289071272, guid: 7f5931b49a20999479c7faf2e70e76a3, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4591760289071272, guid: 7f5931b49a20999479c7faf2e70e76a3, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4591760289071272, guid: 7f5931b49a20999479c7faf2e70e76a3, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4591760289071272, guid: 7f5931b49a20999479c7faf2e70e76a3, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4591760289071272, guid: 7f5931b49a20999479c7faf2e70e76a3, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4591760289071272, guid: 7f5931b49a20999479c7faf2e70e76a3, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4591760289071272, guid: 7f5931b49a20999479c7faf2e70e76a3, type: 2}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 7f5931b49a20999479c7faf2e70e76a3, type: 2}
-  m_IsPrefabParent: 0
---- !u!114 &441316150 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114486185858288006, guid: 7f5931b49a20999479c7faf2e70e76a3,
-    type: 2}
-  m_PrefabInternal: {fileID: 441316149}
-  m_Script: {fileID: 11500000, guid: 7a896931ee5b56f44bf4ef3c8a1414b8, type: 3}
 --- !u!1 &731415455
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9f77fc24d4415b40add6265ba17c2c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 2800000, guid: eec3e3c30d9ec5d43bd4842750005dca, type: 3}
+  image: {fileID: 2800000, guid: e4cad31f7e4067d4599eb77fde1eadb4, type: 3}
   blocksPerLine: 4
   shuffleLength: 20
   defaultMoveDuration: 0.2
