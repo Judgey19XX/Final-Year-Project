@@ -423,7 +423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 2800000, guid: 7418d548dbb11dd46b2acf3d114efc0f, type: 3}
   blocksPerLine: 4
-  shuffleLength: 20
+  shuffleLength: 40
   defaultMoveDuration: 0.2
   shuffleMoveDuration: 0.1
 --- !u!4 &731415457
